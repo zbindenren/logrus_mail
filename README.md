@@ -16,7 +16,7 @@ For `APPLICATION_NAME`, substitute a short string that will identify your applic
 import (
   "log/syslog"
   "github.com/Sirupsen/logrus"
-  "github.com/Sirupsen/logrus/hooks/mail"
+  "github.com/zbindenren/logrus_mail"
 )
 
 func main() {
