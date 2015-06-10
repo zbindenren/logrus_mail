@@ -8,6 +8,14 @@ In some deployments, you'll want to report errors by email. If you add this hook
 
 The subject is of the form `APPLICATION_NAME - LEVEL` and the body contains the timestamp and the message.
 
+## Installation
+
+Install the package with go:
+
+```go
+go get github.com/zbindenren/logrus_mail
+```
+
 ## Usage
 
 For `APPLICATION_NAME`, substitute a short string that will identify your application or service in the logs.
