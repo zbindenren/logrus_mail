@@ -1,4 +1,4 @@
-# Mail Hook for Logrus
+# Mail Hook for Logrus [![GoDoc](http://godoc.org/github.com/zbinderen/logrus_mail?status.svg)](http://godoc.org/github.com/zbindenren/logrus_mail)
 
 In some deployments, you'll want to report errors by email. If you add this hook, an email will send for the following levels:
 
