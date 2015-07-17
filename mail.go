@@ -2,6 +2,7 @@ package logrus_mail
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net"
 	"net/mail"
@@ -148,6 +149,8 @@ func (hook *MailHook) Levels() []logrus.Level {
 func createMessage(entry *logrus.Entry, appname string) *bytes.Buffer {
 	body := entry.Time.Format(format) + " - " + entry.Message
 	subject := appname + " - " + entry.Level.String()
-	message := bytes.NewBufferString(fmt.Sprintf("Subject: %s\r\n\r\n%s", subject, body))
+	fields, _ := json.MarshalIndent(entry.Data, "", "\t")
+	contents := fmt.Sprintf("Subject: %s\r\n\r\n%s\r\n\r\n%s", subject, body, fields)
+	message := bytes.NewBufferString(contents)
 	return message
 }
