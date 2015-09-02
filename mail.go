@@ -53,8 +53,12 @@ func NewMailHook(appname string, host string, port int, from string, to string) 
 	}
 
 	// Set the sender and recipient.
-	c.Mail(sender.String())
-	c.Rcpt(recipient.String())
+	if err := c.Mail(sender.Address); err != nil {
+		return nil, err
+	}
+	if err := c.Rcpt(recipient.Address); err != nil {
+		return nil, err
+	}
 
 	return &MailHook{
 		AppName: appname,
