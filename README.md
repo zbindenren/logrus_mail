@@ -41,7 +41,7 @@ func main() {
 Example with authentication:
 ```go
   // if you need authentication for your smtp host
-  hook, err := logrus_mail.NewMailAuthHook("APPLICATION_NAME", "HOST", PORT, "FROM", "TO", "USERNAME", "PASSWORD)
+  hook, err := logrus_mail.NewMailAuthHook("APPLICATION_NAME", "HOST", PORT, "FROM", "TO", "USERNAME", "PASSWORD")
 ```
 
 If you want to send mails with gmail:
