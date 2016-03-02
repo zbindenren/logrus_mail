@@ -73,9 +73,8 @@ func NewMailAuthHook(appname string, host string, port int, from string, to stri
 	conn, err := net.DialTimeout("tcp", host+":"+strconv.Itoa(port), 3*time.Second)
 	if err != nil {
 		return nil, err
-	} else {
-		defer conn.Close()
 	}
+	defer conn.Close()
 
 	// Validate sender and recipient
 	sender, err := mail.ParseAddress(from)
