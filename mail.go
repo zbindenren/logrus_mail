@@ -21,6 +21,8 @@ const (
 type MailHook struct {
 	AppName string
 	c       *smtp.Client
+
+	levels []logrus.Level
 }
 
 // MailAuthHook to sends logs by email with authentication.
@@ -32,10 +34,12 @@ type MailAuthHook struct {
 	To       *mail.Address
 	Username string
 	Password string
+
+	levels []logrus.Level
 }
 
 // NewMailHook creates a hook to be added to an instance of logger.
-func NewMailHook(appname string, host string, port int, from string, to string) (*MailHook, error) {
+func NewMailHook(appname string, host string, port int, from string, to string, levels []logrus.Level) (*MailHook, error) {
 	// Connect to the remote SMTP server.
 	c, err := smtp.Dial(host + ":" + strconv.Itoa(port))
 	if err != nil {
@@ -63,12 +67,14 @@ func NewMailHook(appname string, host string, port int, from string, to string) 
 	return &MailHook{
 		AppName: appname,
 		c:       c,
+
+		levels: levels,
 	}, nil
 
 }
 
 // NewMailAuthHook creates a hook to be added to an instance of logger.
-func NewMailAuthHook(appname string, host string, port int, from string, to string, username string, password string) (*MailAuthHook, error) {
+func NewMailAuthHook(appname string, host string, port int, from string, to string, username string, password string, levels []logrus.Level) (*MailAuthHook, error) {
 	// Check if server listens on that port.
 	conn, err := net.DialTimeout("tcp", host+":"+strconv.Itoa(port), 3*time.Second)
 	if err != nil {
@@ -93,7 +99,10 @@ func NewMailAuthHook(appname string, host string, port int, from string, to stri
 		From:     sender,
 		To:       receiver,
 		Username: username,
-		Password: password}, nil
+		Password: password,
+
+		levels: levels,
+	}, nil
 }
 
 // Fire is called when a log event is fired.
@@ -133,20 +142,12 @@ func (hook *MailAuthHook) Fire(entry *logrus.Entry) error {
 
 // Levels returns the available logging levels.
 func (hook *MailAuthHook) Levels() []logrus.Level {
-	return []logrus.Level{
-		logrus.PanicLevel,
-		logrus.FatalLevel,
-		logrus.ErrorLevel,
-	}
+	return hook.levels
 }
 
 // Levels returns the available logging levels.
 func (hook *MailHook) Levels() []logrus.Level {
-	return []logrus.Level{
-		logrus.PanicLevel,
-		logrus.FatalLevel,
-		logrus.ErrorLevel,
-	}
+	return hook.levels
 }
 
 func createMessage(entry *logrus.Entry, appname string) *bytes.Buffer {
