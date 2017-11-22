@@ -76,7 +76,7 @@ func NewMailHook(appname string, host string, port int, from string, to string, 
 // NewMailAuthHook creates a hook to be added to an instance of logger.
 func NewMailAuthHook(appname string, host string, port int, from string, to string, username string, password string, levels []logrus.Level) (*MailAuthHook, error) {
 	// Check if server listens on that port.
-	conn, err := net.DialTimeout("tcp", host+":"+strconv.Itoa(port), 3*time.Second)
+	conn, err := net.DialTimeout("tcp", host+":"+strconv.Itoa(port), 10*time.Second)
 	if err != nil {
 		return nil, err
 	}
